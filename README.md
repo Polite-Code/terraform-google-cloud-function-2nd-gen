@@ -4,7 +4,7 @@
 
 ```HCL
 module "otp-webhook" {
-  source = "./gcp_cloud_function_2nd_gen"
+  source = "Polite-Code/cloud-function-2nd-gen/google"
   entry_point = "main"
   function_name = "otp-webhook"
   function_path = "../otp_webhook"
