@@ -6,7 +6,7 @@ terraform {
   }
 }
 data "archive_file" "source" {
-  output_path = "/tmp/${var.function_name}.zip"
+  output_path = "${path.module}/${var.function_name}.zip"
   type        = "zip"
   source_dir = var.function_path
 }
