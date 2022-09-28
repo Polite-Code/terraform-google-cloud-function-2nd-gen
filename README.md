@@ -1,5 +1,9 @@
 # GCP Cloud Function 2nd gen
 
+Opinionated module to create a GCP 2nd gen Cloud Function.
+
+
+
 ## Example
 
 ```HCL
@@ -11,5 +15,6 @@ module "otp-webhook" {
   project_id = var.project_id
   region = var.region
   runtime = "python310"
+  roles = ["roles/datastore.user"]
 }
 ```

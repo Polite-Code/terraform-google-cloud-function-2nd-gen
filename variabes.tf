@@ -58,6 +58,7 @@ variable "max_instance_count" {
 
 variable "function_name" {
   type = string
+  # TODO: add validation
   #validation {
    # condition     = can(regex("^[a-zA-Z0-9_-]{1,255}$", var.secret_id))
   #  error_message = "The function_name must be a string of alphanumeric, hyphen, and underscore characters, and upto 255 characters in length."
@@ -65,4 +66,12 @@ variable "function_name" {
   description = <<EOD
 The function name.
 EOD
+}
+
+# TODO: add validation (starts with roles/)
+
+variable "roles" {
+  type = list(string)
+  description = "The list of roles to assign to the service account"
+  default = []
 }

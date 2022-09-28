@@ -22,6 +22,17 @@ resource "google_storage_bucket_object" "zip" {
   source = data.archive_file.source.output_path
 }
 
+resource "google_service_account" "sa" {
+  account_id = "${var.function_name}-sa"
+}
+
+resource "google_project_iam_member" "sa-roles" {
+  project = var.project_id
+  for_each = toset(var.roles)
+  role = each.key
+  member = "serviceAccount:${google_service_account.sa.email}"
+}
+
 resource "google_cloudfunctions2_function" "function" {
 
   name = var.function_name
@@ -29,6 +40,7 @@ resource "google_cloudfunctions2_function" "function" {
 
   build_config {
     runtime = var.runtime
+
 
     entry_point = var.entry_point
     source {
@@ -46,5 +58,6 @@ resource "google_cloudfunctions2_function" "function" {
     available_memory = var.available_memory
     all_traffic_on_latest_revision = var.all_traffic_on_latest_revision
     environment_variables = var.environment_variables
+    service_account_email = google_service_account.sa.email
   }
 }
