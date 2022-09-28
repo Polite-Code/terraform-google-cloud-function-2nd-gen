@@ -59,3 +59,17 @@ resource "google_cloudfunctions2_function" "function" {
     service_account_email = google_service_account.sa.email
   }
 }
+
+data "google_iam_policy" "invoker" {
+  binding {
+    role = "roles/run.invoker"
+    members = var.invokers
+  }
+}
+
+resource "google_cloud_run_service_iam_policy" "policy" {
+  project = google_cloudfunctions2_function.function.project
+  location = google_cloudfunctions2_function.function.location
+  service = google_cloudfunctions2_function.function.name
+  policy_data = data.google_iam_policy.invoker.policy_data
+}

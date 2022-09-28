@@ -75,3 +75,9 @@ variable "roles" {
   description = "The list of roles to assign to the service account"
   default = []
 }
+
+variable "invokers" {
+  type = list(string)
+  description = "The list of members that can invoke the function. Include allUsers to make the function public."
+  default = ["allUsers"]
+}
