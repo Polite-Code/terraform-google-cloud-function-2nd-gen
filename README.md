@@ -16,5 +16,6 @@ module "otp-webhook" {
   region = var.region
   runtime = "python310"
   roles = ["roles/datastore.user"]
+  invokers = ["serviceAccount:your-sa@your-project.iam.gserviceaccount.com"]
 }
 ```
