@@ -34,15 +34,13 @@ resource "google_project_iam_member" "sa-roles" {
 }
 
 resource "google_cloudfunctions2_function" "function" {
-
   name = var.function_name
   location = var.region
 
   build_config {
     runtime = var.runtime
-
-
     entry_point = var.entry_point
+
     source {
       storage_source {
         bucket = google_storage_bucket.function_bucket.name
