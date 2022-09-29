@@ -150,6 +150,7 @@ variable "vpc_connector_egress_settings" {
   The egress settings for the VPC connector. This controls which traffic flows through it.
 Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY
 EOD
+  default = null
 
 }
 
