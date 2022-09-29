@@ -145,8 +145,8 @@ EOD
 variable "vpc_connector_egress_settings" {
   type = string
   validation {
-    condition = var.vpc_connector_egress_settings == null ||
-      contains(["ALL_TRAFFIC", "PRIVATE_RANGES_ONLY"], var.vpc_connector_egress_settings)
+    condition = (var.vpc_connector_egress_settings == null ||
+      contains(["ALL_TRAFFIC", "PRIVATE_RANGES_ONLY"], var.vpc_connector_egress_settings))
     error_message = "Must be one of ALL_TRAFFIC, PRIVATE_RANGES_ONLY"
   }
   description = <<EOD
