@@ -77,15 +77,3 @@ resource "google_cloud_run_service_iam_policy" "policy" {
   service = google_cloudfunctions2_function.function.name
   policy_data = data.google_iam_policy.invoker.policy_data
 }
-
-# TODO: is there a better way?
-module "concurrency" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0"
-  skip_download = false
-
-  create_cmd_entrypoint = "gcloud"
-  create_cmd_body       = "run services update ${google_cloudfunctions2_function.function.name} --concurrency ${var.concurrency} --region ${var.region}"
-
-  module_depends_on = [google_cloudfunctions2_function.function]
-}
