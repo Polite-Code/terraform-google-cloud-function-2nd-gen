@@ -93,5 +93,5 @@ module "concurrency" {
   create_cmd_entrypoint = "gcloud"
   create_cmd_body       = "run services update ${google_cloudfunctions2_function.function.name} --concurrency ${var.concurrency} --region ${var.region}"
 
-  depends_on = [google_cloudfunctions2_function.function]
+  module_depends_on = [google_cloudfunctions2_function.function]
 }
