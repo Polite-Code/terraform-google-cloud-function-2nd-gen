@@ -70,7 +70,7 @@ data "google_iam_policy" "invoker" {
     members = concat(
       var.invokers, (
         var.schedule == null ? [] : [
-          "serviceAccount:${google_service_account.scheduler-sa.email}"
+          "serviceAccount:${google_service_account.scheduler-sa[0].email}"
         ]
       )
     )
@@ -107,7 +107,7 @@ resource "google_cloud_scheduler_job" "default" {
     uri         =  google_cloudfunctions2_function.function.service_config[0].uri
 
     oidc_token {
-      service_account_email = google_service_account.scheduler-sa.email
+      service_account_email = google_service_account.scheduler-sa[0].email
     }
   }
 }
