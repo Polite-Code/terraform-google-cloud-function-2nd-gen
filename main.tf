@@ -65,7 +65,7 @@ resource "google_cloudfunctions2_function" "function" {
 
   provisioner "local-exec" {
     when = create
-    command = "gcloud run services update ${self.name} --concurrency ${var.concurrency} --region ${var.region}"
+    command = "gcloud "
   }
 }
 
@@ -81,4 +81,17 @@ resource "google_cloud_run_service_iam_policy" "policy" {
   location = google_cloudfunctions2_function.function.location
   service = google_cloudfunctions2_function.function.name
   policy_data = data.google_iam_policy.invoker.policy_data
+}
+
+# TODO: is there a better way?
+module "concurrency" {
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 2.0"
+
+  use_tf_google_credentials_env_var = true
+
+  create_cmd_entrypoint = "gcloud"
+  create_cmd_body       = "run services update ${google_cloudfunctions2_function.function.name} --concurrency ${var.concurrency} --region ${var.region}"
+
+  depends_on = [google_cloudfunctions2_function.function]
 }
