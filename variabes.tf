@@ -152,3 +152,9 @@ Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY
 EOD
 
 }
+
+variable "concurrency" {
+  type = number
+  default = 80
+  description = "How many concurrent connections each underlying Cloud Run container can handle. Defaults to 80."
+}

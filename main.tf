@@ -33,6 +33,7 @@ resource "google_project_iam_member" "sa-roles" {
   member = "serviceAccount:${google_service_account.sa.email}"
 }
 
+
 resource "google_cloudfunctions2_function" "function" {
   name = var.function_name
   location = var.region
@@ -60,6 +61,11 @@ resource "google_cloudfunctions2_function" "function" {
     vpc_connector = var.vpc_connector
     vpc_connector_egress_settings = var.vpc_connector_egress_settings
     service_account_email = google_service_account.sa.email
+  }
+
+  provisioner "local-exec" {
+    when = create
+    command = "gcloud run services update ${self.name} --concurrency ${var.concurrency} --region ${var.region}"
   }
 }
 
