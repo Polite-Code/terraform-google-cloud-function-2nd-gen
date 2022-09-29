@@ -118,7 +118,7 @@ variable "ingress_settings" {
 variable "roles" {
   type = list(string)
   validation {
-    condition = can(regex("^roles/[a-z.]+$"), var.roles)
+    condition = alltrue([for role in var.roles: can(regex("^roles/[a-z.]+$"), role)])
     error_message = "Must be a role qualifier, starting with roles/. For example: roles/datastore.user"
   }
   description = "The list of roles to assign to the service account that the Cloud Function will use."
