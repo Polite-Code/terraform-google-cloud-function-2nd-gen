@@ -89,8 +89,6 @@ module "concurrency" {
   version = "~> 2.0"
   skip_download = false
 
-  use_tf_google_credentials_env_var = true
-
   create_cmd_entrypoint = "gcloud"
   create_cmd_body       = "run services update ${google_cloudfunctions2_function.function.name} --concurrency ${var.concurrency} --region ${var.region}"
 
