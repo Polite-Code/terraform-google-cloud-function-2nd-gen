@@ -87,6 +87,7 @@ resource "google_cloud_run_service_iam_policy" "policy" {
 module "concurrency" {
   source  = "terraform-google-modules/gcloud/google"
   version = "~> 2.0"
+  skip_download = false
 
   use_tf_google_credentials_env_var = true
 
