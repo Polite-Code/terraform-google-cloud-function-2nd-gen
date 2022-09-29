@@ -62,11 +62,6 @@ resource "google_cloudfunctions2_function" "function" {
     vpc_connector_egress_settings = var.vpc_connector_egress_settings
     service_account_email = google_service_account.sa.email
   }
-
-  provisioner "local-exec" {
-    when = create
-    command = "gcloud "
-  }
 }
 
 data "google_iam_policy" "invoker" {
