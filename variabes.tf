@@ -157,5 +157,29 @@ variable "vpc_connector_egress_settings" {
 Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY
 EOD
   default = null
+}
 
+variable "schedule" {
+  type = string
+  default = null
+}
+
+variable "schedule_description" {
+  type = string
+  default = ""
+}
+
+variable "schedule_timezone" {
+  type = string
+  default = "UTC"
+}
+
+variable "schedule_attempt_deadline" {
+  type = string
+  default = "320s"
+}
+
+variable "schedule_retry_count" {
+  type = number
+  default = 0
 }

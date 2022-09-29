@@ -67,7 +67,13 @@ resource "google_cloudfunctions2_function" "function" {
 data "google_iam_policy" "invoker" {
   binding {
     role = "roles/run.invoker"
-    members = var.invokers
+    members = concat(
+      var.invokers, (
+        var.schedule == null ? [] : [
+          "serviceAccount:${google_service_account.scheduler-sa.email}"
+        ]
+      )
+    )
   }
 }
 
@@ -76,4 +82,32 @@ resource "google_cloud_run_service_iam_policy" "policy" {
   location = google_cloudfunctions2_function.function.location
   service = google_cloudfunctions2_function.function.name
   policy_data = data.google_iam_policy.invoker.policy_data
+}
+
+resource "google_service_account" "scheduler-sa" {
+  count = var.schedule == null ? 0 : 1
+  account_id = "${var.function_name}-scheduler-sa"
+}
+
+resource "google_cloud_scheduler_job" "default" {
+  count = var.schedule == null ? 0 : 1
+  name             = "${var.function_name}-schedule"
+  description      = var.schedule_description
+  schedule         = var.schedule
+  time_zone        = var.schedule_timezone
+  attempt_deadline = var.schedule_attempt_deadline
+  region = var.region
+
+  retry_config {
+    retry_count = var.schedule_retry_count
+  }
+
+  http_target {
+    http_method = "GET"
+    uri         =  google_cloudfunctions2_function.function.service_config[0].uri
+
+    oidc_token {
+      service_account_email = google_service_account.scheduler-sa.email
+    }
+  }
 }
