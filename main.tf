@@ -56,6 +56,9 @@ resource "google_cloudfunctions2_function" "function" {
     available_memory = var.available_memory
     all_traffic_on_latest_revision = var.all_traffic_on_latest_revision
     environment_variables = var.environment_variables
+    ingress_settings = var.ingress_settings
+    vpc_connector = var.vpc_connector
+    vpc_connector_egress_settings = var.vpc_connector_egress_settings
     service_account_email = google_service_account.sa.email
   }
 }
