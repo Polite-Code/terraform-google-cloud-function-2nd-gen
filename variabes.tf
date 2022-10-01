@@ -11,7 +11,7 @@ EOD
 
 variable "function_path" {
   type = string
-  default = "The (relative) path where the source code for the function can be found. Must point to a directory."
+  description = "The (relative) path where the source code for the function can be found. Must point to a directory."
 }
 
 variable "runtime" {
